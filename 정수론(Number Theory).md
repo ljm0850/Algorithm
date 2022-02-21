@@ -140,4 +140,54 @@ A+B = (a+b)c + (x+y)
               prime.append(n//i)
   ```
 
+
+
+## 에라토스테네스의 체
+
+- 소수를 찾는 방법중 하나
+
+- 2부터 소수를 구하고자 하는 구간의 모든 수를 나열
+
+- 첫번째 소수 2를 구함, 2의 배수 제거
+
+- 두번째 소수 3을 구함, 3의 배수 제거
+
+- 세번째 소수 5를 구함, 5의 배수 제거
+
+- 구한소수**2 > 범위최대가 될떄까지 ...반복
+
   
+
+```python
+def prime_list(n):
+    # 에라토스테네스의 체 초기화: n개 요소에 True 설정(소수로 간주)
+    sieve = [True] * n
+
+    # n의 최대 약수가 sqrt(n) 이하이므로 i=sqrt(n)까지 검사
+    m = int(n ** 0.5)
+    for i in range(2, m + 1):
+        if sieve[i] == True:           # i가 소수인 경우
+            for j in range(i+i, n, i): # i이후 i의 배수들을 False 판정
+                sieve[j] = False
+
+    # 소수 목록 산출
+    return [i for i in range(2, n) if sieve[i] == True]
+
+#출처 https://ko.wikipedia.org/wiki/%EC%97%90%EB%9D%BC%ED%86%A0%EC%8A%A4%ED%85%8C%EB%84%A4%EC%8A%A4%EC%9D%98_%EC%B2%B4
+```
+
+------
+
+#### n! 에 곱해진 소수
+
+```python
+n = int(input())		#n!
+p = int(input())		#소수
+
+cnt = 0					#소수가 몇번 곱해졌는지
+a=p						#while문 조건 변경 방지
+while a <= n:
+    cnt += n//a			# 1부터 n까지의 a값의 배수의 개수 추가
+    a *= p				# p제곱으로 다시 검사 시작 
+```
+
