@@ -179,6 +179,42 @@ def Selection_sort(arr_ls,n):
 
 
 
+### 퀵 정렬
+
+- 주어진 배열을 두 개로 분할하고, 각각 정렬
+- 기준(pivot) 중심으로 작으면 왼쪽, 크면 오른쪽에 위치시킴
+
+```python
+def QuickSort(target,start,end):	#각각 t,s,e라고 하겠음
+    if s < e:
+        pivot = partition(t,s,e)
+        QuickSort(t,s,e-1)			#끝점을 옮겨가며 작업
+        QuickSort(t,s+1,e)			#시작점을 옮겨가며 작업
+        
+def partition(t,s,e):
+    pivot = (s+e) // 2
+    Left = s
+    Right = e
+    while Left < Right:
+        #기준점보다 왼쪽 부분에서 기준점보다 큰 값을 찾을때 까지 or 못찾거나
+        while(Left<Right and t[Left] < t[pivot]) : Left += 1 
+        #기준점보다 오른쪽 부분에서 기준접보다 작은 값을 찾을때 까지 or 못찾거나
+        while(Left<Right and t[Right]>= t[pivot]) : R -= 1
+        if Left < Right:
+            #만약 못찾으면 pivot 위치가 바꾸게 됨
+            if Left == pivot :
+                pivot = R
+            t[Left], t[Right] = t[Right], t[Left]
+    t[pivot], t[Right] =t[Right],t[pivot]
+    return Right
+```
+
+
+
+
+
+
+
 ### 투포인터 (시작점과 끝점을 설정하여 구간 검색)
 
 #### 연속되는 부분집합의 합이 x인 부분집합
