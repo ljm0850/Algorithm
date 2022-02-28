@@ -148,32 +148,38 @@ A+B = (a+b)c + (x+y)
 
 - 2부터 소수를 구하고자 하는 구간의 모든 수를 나열
 
-- 첫번째 소수 2를 구함, 2의 배수 제거
+- 첫번째 소수 2의 배수 제거
 
-- 두번째 소수 3을 구함, 3의 배수 제거
+- 다음 수인 3의 배수 제거
 
-- 세번째 소수 5를 구함, 5의 배수 제거
+- 4는 2의 배수라 제거됨 다음 남은 수인 5의 배수 제거
 
 - 구한소수**2 > 범위최대가 될떄까지 ...반복
 
   
 
 ```python
-def prime_list(n):
-    # 에라토스테네스의 체 초기화: n개 요소에 True 설정(소수로 간주)
-    sieve = [True] * n
+#N 이상 M 이하의 소수 찾는 문제
+M, N = map(int, input().split())
+nums = [i for i in range(0,N+1)]
+i=2 						#nums를 index기준으로 찾기 위하여
+a=2							#체
+while a ** 2 <= N:
+    j=2
+    while a*j<=N:			#소수가 아닌것들 -1로 변경
+        temp = a*j
+        nums[temp] = -1
+        j=j+1
+    while True:				#체에 거르기 위해 다음 소수를 찾는 과정
+        i=i+1
+        if nums[i] < 0:		#소수가 아닌것들은 -1이 되서 continue
+            continue
+        a = nums[i]			#소수를 찾으면 break를 통해 a에 할당
+        break
 
-    # n의 최대 약수가 sqrt(n) 이하이므로 i=sqrt(n)까지 검사
-    m = int(n ** 0.5)
-    for i in range(2, m + 1):
-        if sieve[i] == True:           # i가 소수인 경우
-            for j in range(i+i, n, i): # i이후 i의 배수들을 False 판정
-                sieve[j] = False
-
-    # 소수 목록 산출
-    return [i for i in range(2, n) if sieve[i] == True]
-
-#출처 https://ko.wikipedia.org/wiki/%EC%97%90%EB%9D%BC%ED%86%A0%EC%8A%A4%ED%85%8C%EB%84%A4%EC%8A%A4%EC%9D%98_%EC%B2%B4
+for s in range(M,len(nums)):
+    if nums[s] > 1:
+        print(nums[s])
 ```
 
 ------
