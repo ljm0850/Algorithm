@@ -209,6 +209,33 @@ def partition(t,s,e):
     return Right
 ```
 
+```python
+def quicksort(ls,start,end):
+    if start < end:
+        p = partition(ls,start,end)
+        quicksort(ls,start,p-1)
+        quicksort(ls,p+1,end)
+
+def partition(ls,start,end):
+    p = ls[start]
+    i = start
+    j = end
+    while i<= j:
+        while i<= j and ls[i] <= p:
+            i += 1
+        while i<=j and ls[j] >= p:
+            j -=1
+        if i < j:
+            ls[i],ls[j] =ls[j],ls[i]
+    ls[start],ls[j] = ls[j],ls[start]
+    return j
+
+for tc in range(1,4):
+    nums = list(map(int,input().split(', ')))
+    quicksort(nums,0,len(nums)-1)
+    print(nums)
+```
+
 
 
 
@@ -251,3 +278,47 @@ def Select(arr,k):
     return arr[k-1]       
 ```
 
+
+
+### 병합 정렬(Merge sort)
+
+- 여러 개의 정렬된 자료의 집합을 병합하여 한개의 정렬된 집합으로 만듬
+- O(n log n)
+- list를 계속하여 2등분을 반복, 값이 1개 리스트로 분할되면 병합 시작
+- 병합시 왼쪽 리스트와 오른쪽 리스트 순서대로 값 비교
+  - 왼쪽 1번쨰 <> 오른쪽 1번째 (왼쪽이 더 작을시) -> 왼쪽 2번째<> 오른쪽 1번째 순서로 비교
+
+```python
+def merge_sort(ls,n):
+    if n > 1:
+        temp1 = ls[:n//2]		# 2분할
+        temp2 = ls[n//2:]
+        temp1 = merge_sort(temp1,len(temp1))
+        temp2 = merge_sort(temp2,len(temp2))
+        return merge(temp1,temp2)
+    else:
+        return ls
+
+def merge(ls1,ls2):
+    n1 = len(ls1)
+    n2 = len(ls2)
+    n_ls = []			# n1,n2 병합 리스트 
+    i,j = 0,0
+
+    while i<n1 and j<n2 :
+        if ls1[i] <= ls2[j]:
+            n_ls.append(ls1[i])
+            i += 1
+        else:
+            n_ls.append(ls2[j])
+            j += 1
+    while i < n1:
+        n_ls.append(ls1[i])
+        i += 1
+    while j < n2:
+        n_ls.append(ls2[j])
+        j += 1
+    return n_ls
+```
+
+- 메모리 사용량이 많은 점이 단점
