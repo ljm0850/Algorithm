@@ -30,6 +30,45 @@
   - 간선 선택시 사이클이 존재하게 될 경우, 포기하고 다음 간선 선택
   - 반복
 
+```pytho
+# 백준 1197
+import sys
+def solve(arr:list)->int:
+    total = 0
+    for node in arr: # 내림차순으로 정렬된것을 차례로 탐색
+        if find_root(node[0]) != find_root(node[1]): # 연결된 적이 없는 노드간의 간선
+            union(node[0],node[1])
+            total += node[2]
+    return total
+
+def union(a:int,b:int)->None: # 선택된 노드를 연결
+    A = find_root(a)
+    B = find_root(b)
+    if depth[A] > depth[B]:
+        group[B] = A
+    elif depth[A] < depth[B]:
+        group[A] = B
+    else:
+        group[A] = B
+        depth[B] += 1
+
+def find_root(n:int)->int: # 노드의 root찾기(연결 상태 확인용)
+    if group[n] == n:
+        return n
+    group[n] = find_root(group[n])
+    return group[n]
+
+V,E = map(int,sys.stdin.readline().split())
+group = [num for num in range(V+1)]
+depth = [1]*(V+1)
+graph = [list(map(int,sys.stdin.readline().split())) for _ in range(E)]
+graph.sort(key=lambda x:x[2])	# 오름차순 정렬
+ans = solve(graph)
+print(ans)
+```
+
+
+
 
 
 ---
